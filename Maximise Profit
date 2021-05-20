@@ -1,0 +1,59 @@
+"""Maximize profits"""
+import math as m
+again="y"
+while again =="y":
+    number=0
+    MAX=0
+    name=[]3
+    amount=[]
+    price=[]
+    cost=[]
+    profit=[]
+    demand=[]
+    time=8 #hours
+    rate=[]
+    #gather data
+    number=int(input("how many products in your inventory?\n"))
+    for i in range(number):
+        n=str(input("enter a product name:\n"))
+        name.append(n)
+        amount.append(0)
+        price.append(float(input("sales price?\n")))
+        cost.append(float(input("manufacturing cost?\n")))
+        profit.append(price[i]-cost[i])
+        demand.append(float(input("maximun demand per eight-hour shift?\n")))
+        rate.append(float(input("how many can be produced per hour?\n")))
+    #sort data from highest price to lowest
+    for i in range(0,number-1):
+        for j in range(1,number):
+            if profit[j]>profit[i]:
+                temp=profit[i]
+                profit[i]=profit[j]
+                profit[j]=temp
+                str_temp=name[i]
+                name[i]=name[j]
+                name[j]=str_temp
+                temp=demand[i]
+                demand[i]=demand[j]
+                demand[j]=temp
+                temp=rate[i]
+                rate[i]=rate[j]
+                rate[j]=temp
+        #calculator the maximum overal profit
+        t=0
+        i=0
+        while t<time:
+            if demand[i]<rate[i]*time:
+                amount[i]=demand[i]
+                time=time-demand[i]/rate[i]
+            else:
+                amount[i]=rate[i]*time
+                break
+            i=i+1
+        print("in an 8 hr.shift produce the following products in the following quantities:\n")
+        for i in range(number):
+            MAX=MAX+profit*amount[i]
+            #print results
+            print(str(round(amount[i])))+" "+name[i]+ "\n"
+        print(f"the maximum profit is ${MAX:,.2f}\n")
+        again=input("continue? y for yes,n for no:\n")
